@@ -1,0 +1,135 @@
+docker production grade installation
+
+
+#!/bin/bash
+growpart /dev/nvme0n1 4
+lvextend -L +30G /dev/mapper/RootVG-varVol
+xfs_growfs /var
+dnf -y install dnf-plugins-core
+dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+systemctl start docker
+systemctl enable docker
+usermod -aG docker ec2-user
+
+### Trivy Installation
+
+```bash
+sudo apt-get install wget apt-transport-https gnupg lsb-release
+wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+sudo apt-get update
+sudo apt-get install trivy -y
+```
+### Docker Installation
+
+```bash
+sudo apt update
+sudo apt install ca-certificates curl gnupg
+
+sudo install -m 0755 -d /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+sudo chmod a+r /etc/apt/keyrings/docker.gpg
+
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+sudo apt install docker-compose -y
+
+sudo service docker restart
+sudo chmod 666 /var/run/docker.sock
+sudo systemctl restart docker
+```
+
+### on RHEL
+# Add the repository and install the package
+
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+
+# installing the docker cli, buildx and docker compose plugins with this
+
+sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+
+# after installing the docker we just have to add the use to the docker group ( docker group will be the secondary group to the user ) sudo usermod -aG docker <username>
+ 
+# start the docke daemon or docker service
+sudo systemctl enable --now docker
+
+# sample docker hello world container
+sudo docker run hello-world
+
+“-p 80:80”
+first one is the host port and second one is the container port
+
+docker rm -f `docker ps -a -q`
+Thsi command deletes the all stopped containers (which are not running)
+
+docker tag <old_image_name> <username/image_name>
+This is used to tag or change the name of an image and is useful for us to push into our docker hub repository
+
+docker push <username/image_name>
+to push the image to our docker hub repo
+
+almalinux:9
+it an os like redhat but it is from centos
+
+/usr/share/nginx/html this is the default location for nginx in a docker container for configurations
+
+to see the progress while building the docker image
+use	—progress=plain with —no-cache
+
+COPY
+This only copies the code or files from src to dest
+Ex:	COPY . /app		# Which means it will copy everything from current dir to /app dir	
+						* Here the dot is src and /app is the dest
+
+ADD has the two capabilities in docker
+- which can downloads a file or dir from any source like urls
+- it can unzip or untar the files into specified folder directly without any instrucstions like from source to destination
+
+Entrypoint
+This is used as an entrypoint to the container which can not be overriden while starting or running the container
+Ex:	ENTRYPOINT [“ping”] 	-	This will be the predefined command in the docker file and we can not override this
+
+CMD
+Unlike entrypoint, cmd can be overriden and can change any command while building the image and running the container
+
+labels
+In docker labels are used to store info in key and value pairs
+ex:	LABEL NAME: “Srikanth” etc
+
+EXPOSE
+This is used for giving instructions to the user whoever wants to build the image and start the container
+ex:	expose 80
+This provides the info to the user whoever wants to run the container
+
+WORKDIR
+A workdir is like a location where we place all our code and do everyting from there like /app in roboshop project
+Ex:	WORKDIR /app
+This creates a dir called /app and places all the code which we add and copy
+This will be the default directory for the application code whatever we copy into this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
