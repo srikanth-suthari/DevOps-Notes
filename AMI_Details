@@ -1,0 +1,13 @@
+DEVOPS
+
+AMI Id - ami-09c813fb71547fc4f
+AMI Name: DevOps-Practice
+
+project - 1
+Sample Expense project with 3 Tier Architecture implementation
+https://github.com/daws-86s/expense-documentation/tree/main
+
+
+username and password for the ami is
+ec2-user
+DevOps321
