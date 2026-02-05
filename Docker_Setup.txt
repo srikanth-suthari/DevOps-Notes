@@ -112,23 +112,3 @@ A workdir is like a location where we place all our code and do everyting from t
 Ex:	WORKDIR /app
 This creates a dir called /app and places all the code which we add and copy
 This will be the default directory for the application code whatever we copy into this
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
