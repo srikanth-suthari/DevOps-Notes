@@ -1,0 +1,4 @@
+ls - to list commands
+cd - to change the directories
+mkdir - to create directory
+rmdir - to remove an empty directory
