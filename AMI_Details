@@ -7,6 +7,9 @@ project - 1
 Sample Expense project with 3 Tier Architecture implementation
 https://github.com/daws-86s/expense-documentation/tree/main
 
+Project - 2
+RoboShop - an ecommerce application to sell robotic items.
+
 username and password for the ami is
 user: ec2-user
 passwd: DevOps321
