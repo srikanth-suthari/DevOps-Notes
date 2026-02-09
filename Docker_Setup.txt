@@ -59,6 +59,8 @@ sudo dnf install docker-ce docker-ce-cli containerd.io docker-buildx-plugin dock
 # start the docke daemon or docker service
 sudo systemctl enable --now docker
 
+Docker Commands
+
 # sample docker hello world container
 sudo docker run hello-world
 
